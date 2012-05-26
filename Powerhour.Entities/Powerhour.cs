@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
-namespace Powerhour.Entities
+namespace Powerhourer.Entities
 {
     public class Powerhour
     {
-        public IList<SongSample> SongSamples { get; private set; }
-
+        public ObservableCollection<SongSample> SongSamples { get; private set; }
 
         public Powerhour()
         {
-            SongSamples = new List<SongSample>();
+            SongSamples = new ObservableCollection<SongSample>(new List<SongSample>());
         }
     }
 }
