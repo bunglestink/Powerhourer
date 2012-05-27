@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Windows;
@@ -15,82 +15,38 @@ using Powerhourer.Entities;
 
 namespace Powerhourer.BusinessLayer {
     public class PowerhourService {
- 
-        public void AddSongs(Powerhour Powerhour)
+
+        readonly MediaElement MediaElement;
+
+        public PowerhourService()
         {
-            var openFilesDialog = new OpenFileDialog {
-                Filter = "MP3 (.mp3)|*.mp3",
-                Multiselect = true
+            this.MediaElement = new MediaElement();
+            MediaElement.MediaOpened += (a, b) => {
+                MediaElement.Play();
             };
-
-            if (openFilesDialog.ShowDialog() == true) {
-         
-                foreach (var file in openFilesDialog.Files) {
-                    
-                    var song = new Song(file.FullName);
-                    var songSample = new SongSample(song);
-                    Powerhour.SongSamples.Add(songSample);
-                }
-            }
         }
 
 
-        public void RemoveSongs(Powerhour CurrentPowerhour, IEnumerable<SongSample> songSamples)
+        public void Play(Powerhour Powerhour)
         {
-            var confirmationResult = MessageBox.Show("Are you sure you wish to remove these songs?", "Confirmation", MessageBoxButton.OKCancel);
-
-            if (confirmationResult == MessageBoxResult.OK) {
-
-                foreach (var song in songSamples) {
-                    CurrentPowerhour.SongSamples.Remove(song);
-                }
-            }
+            var song = Powerhour.SongSamples.First().Song;
+            MediaElement.SetSource(new FileStream(song.FilePath, FileMode.Open));
+            MediaElement.Position = TimeSpan.Zero;
         }
 
-
-
-        public void MoveSongsUp(Powerhour CurrentPowerhour, IEnumerable<SongSample> songSamples)
+        public void Pause()
         {
-            if (songSamples.Any(s => CurrentPowerhour.SongSamples.First() == s)) {
-                MessageBox.Show("Cannot move up when first song is selected.");
-                return;
-            }
-
-            // TODO: this is a cheat - will fail if a song in more than once
-            var indexedSongSamples = songSamples
-                .Select(s => new {
-                    Song = s,
-                    Index = CurrentPowerhour.SongSamples.IndexOf(s)
-                })
-                .OrderBy(s => s.Index);
-
-            foreach (var indexedSong in indexedSongSamples) {
-                CurrentPowerhour.SongSamples.RemoveAt(indexedSong.Index);
-                CurrentPowerhour.SongSamples.Insert(indexedSong.Index - 1, indexedSong.Song);
-            }
+            MediaElement.Pause();
         }
 
-
-
-        public void MoveSongsDown(Powerhour CurrentPowerhour, IEnumerable<SongSample> songSamples)
+        public void ResumeFromPause()
         {
-            if (songSamples.Any(s => CurrentPowerhour.SongSamples.Last() == s)) {
-                MessageBox.Show("Cannot move down when last song is selected.");
-                return;
-            }
+            MediaElement.Play();
+        }
 
-            // TODO: this is a cheat - will fail if a song in more than once
-            var indexedSongSamples = songSamples
-                .Select(s => new {
-                    Song = s,
-                    Index = CurrentPowerhour.SongSamples.IndexOf(s)
-                })
-                .OrderByDescending(s => s.Index);
-
-            foreach (var indexedSong in indexedSongSamples) {
-                CurrentPowerhour.SongSamples.RemoveAt(indexedSong.Index);
-                CurrentPowerhour.SongSamples.Insert(indexedSong.Index + 1, indexedSong.Song);
-            }
+        public void Stop()
+        {
+            MediaElement.Stop();
         }
     }
 }

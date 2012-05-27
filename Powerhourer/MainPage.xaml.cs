@@ -19,19 +19,21 @@ namespace Powerhourer {
 
         public Powerhour CurrentPowerhour { get; set; }
 
+        readonly SongService songService;
         readonly PowerhourService powerhourService;
 
 
         public MainPage()
-            : this(new PowerhourService())
+            : this(new SongService(), new PowerhourService())
         {
         }
 
-        public MainPage(PowerhourService PowerhourService)
+        public MainPage(SongService SongService, PowerhourService PowerhourService)
         {
             InitializeComponent();
 
-            powerhourService = PowerhourService;
+            this.songService = SongService;
+            this.powerhourService = PowerhourService;
 
             SetCurrentPowerhour(new Powerhour());
         }
@@ -63,27 +65,38 @@ namespace Powerhourer {
 
         private void btnAddSong_Click(object sender, RoutedEventArgs e)
         {
-            powerhourService.AddSongs(CurrentPowerhour);
+            songService.AddSongs(CurrentPowerhour);
         }
 
         private void btnRemoveSong_Click(object sender, RoutedEventArgs e)
         {
             var songSamples = GetSelectedSongs();
-            powerhourService.RemoveSongs(CurrentPowerhour, songSamples);
+            songService.RemoveSongs(CurrentPowerhour, songSamples);
         }
 
         private void btnMoveSongsUp_Click(object sender, RoutedEventArgs e)
         {
             var songSamples = GetSelectedSongs();
-            powerhourService.MoveSongsUp(CurrentPowerhour, songSamples);
+            songService.MoveSongsUp(CurrentPowerhour, songSamples);
             SelectSongs(songSamples);
         }
 
         private void btnMoveSongsDown_Click(object sender, RoutedEventArgs e)
         {
             var songSamples = GetSelectedSongs();
-            powerhourService.MoveSongsDown(CurrentPowerhour, songSamples);
+            songService.MoveSongsDown(CurrentPowerhour, songSamples);
             SelectSongs(songSamples);
+        }
+
+ 
+        private void btnPlay_Click(object sender, RoutedEventArgs e)
+        {
+            btnAddSong.IsEnabled = false;
+            btnRemoveSong.IsEnabled = false;
+            btnMoveSongsUp.IsEnabled = false;
+            btnMoveSongsDown.IsEnabled = false;
+
+            powerhourService.Play(CurrentPowerhour);
         }
     }
 }

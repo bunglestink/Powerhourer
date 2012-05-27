@@ -1,7 +1,7 @@
 <OutOfBrowserSettings ShortName="Powerhourer Application" EnableGPUAcceleration="False" ShowInstallMenuItem="True">
   <OutOfBrowserSettings.Blurb>Powerhourer Application on your desktop; at home, at work or on the go.</OutOfBrowserSettings.Blurb>
   <OutOfBrowserSettings.WindowSettings>
-    <WindowSettings Title="Powerhourer Application" />
+    <WindowSettings Title="Powerhourer Application" Height="600" Width="800" />
   </OutOfBrowserSettings.WindowSettings>
   <OutOfBrowserSettings.SecuritySettings>
     <SecuritySettings ElevatedPermissions="Required" />

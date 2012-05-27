@@ -12,6 +12,7 @@
         <Button Height="50" Margin="118,12,582,538" Name="btnRemoveSong" Width="100" Click="btnRemoveSong_Click">Remove Songs</Button>
         <Button Name="btnMoveSongsUp" Width="75" Height="20" Margin="274,12,451,568" Click="btnMoveSongsUp_Click">Move Up</Button>
         <Button Name="btnMoveSongsDown" Width="75" Height="20" Margin="274,42,451,538" Click="btnMoveSongsDown_Click">Move Down</Button>
+        <Button Name="btnPlay" Height="50" Width="100" Margin="688,12,12,538" Click="btnPlay_Click">Play!</Button>
         
         <sdk:DataGrid AutoGenerateColumns="False" Margin="12,68,12,12" Name="dgPowerhourView" >
             <sdk:DataGrid.Columns>
