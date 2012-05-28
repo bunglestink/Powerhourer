@@ -10,43 +10,52 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 using Powerhourer.Entities;
 
 namespace Powerhourer.BusinessLayer {
     public class PowerhourService {
 
-        readonly MediaElement MediaElement;
+        readonly PowerhourEngine powerhourEngine;
 
-        public PowerhourService()
+        public PowerhourService() : this(new PowerhourEngine())
         {
-            this.MediaElement = new MediaElement();
-            MediaElement.MediaOpened += (a, b) => {
-                MediaElement.Play();
-            };
+        }
+
+        public PowerhourService(PowerhourEngine PowerhourEngine)
+        {
+            this.powerhourEngine = PowerhourEngine;
         }
 
 
         public void Play(Powerhour Powerhour)
         {
-            var song = Powerhour.SongSamples.First().Song;
-            MediaElement.SetSource(new FileStream(song.FilePath, FileMode.Open));
-            MediaElement.Position = TimeSpan.Zero;
+            powerhourEngine.Start(Powerhour);
         }
+
 
         public void Pause()
         {
-            MediaElement.Pause();
+            if (powerhourEngine.IsPlaying) {
+                powerhourEngine.Pause();
+            }
         }
 
-        public void ResumeFromPause()
+
+        public void Resume()
         {
-            MediaElement.Play();
+            if (!powerhourEngine.IsPlaying) {
+                powerhourEngine.Resume();
+            }
         }
+
 
         public void Stop()
         {
-            MediaElement.Stop();
+            if (powerhourEngine.IsPlaying) {
+                powerhourEngine.Stop();
+            }
         }
     }
 }

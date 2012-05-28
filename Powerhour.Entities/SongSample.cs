@@ -8,6 +8,8 @@ namespace Powerhourer.Entities
         public int Start { get; set; }
         public int End { get; set; }
 
+        public int Duration { get { return End - Start; } }
+
         public SongSample(Song Song) : this(Song, 0, 60)
         {
         }
