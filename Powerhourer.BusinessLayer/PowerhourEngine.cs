@@ -29,18 +29,25 @@ namespace Powerhourer.BusinessLayer {
         
         public bool IsPlaying { get { return timer.IsEnabled; } }
 
-        public PowerhourEngine() : this(new MediaElement(), new DispatcherTimer())
-        {
-        }
 
-        public PowerhourEngine(MediaElement MediaElement, DispatcherTimer Timer)
-        {
-            Timer.Tick += Tick;
-            Timer.Interval = new TimeSpan(0, 0, 1);
-            MediaElement.AutoPlay = true;
 
+        public PowerhourEngine(MediaElement MediaElement)
+        {
             this.mediaElement = MediaElement;
-            this.timer = Timer;
+            this.timer = new DispatcherTimer();
+
+            timer.Tick += Tick;
+            timer.Interval = new TimeSpan(0, 0, 1);
+            
+            // the injected media element must exist on the display for MediaOpened to fire
+            mediaElement.AutoPlay = false;
+            mediaElement.MediaOpened += (o, args) => {
+                var player = (MediaElement)o;
+                player.Play();
+                if (player.CanSeek) {
+                    player.Position = new TimeSpan(0, 0, currentSong.Start);
+                }
+            };
         }
 
 
@@ -66,13 +73,14 @@ namespace Powerhourer.BusinessLayer {
             mediaElement.Stop();
             currentFileStream = new FileStream(currentSong.Song.FilePath, FileMode.Open);
             mediaElement.SetSource(currentFileStream);
+            mediaElement.Play();
         }
 
 
         private void Next()
         {
-            songTime = 0;
             currentSongIndex++;
+            songTime = 0;
             PlaySong(currentSong);
         }
 

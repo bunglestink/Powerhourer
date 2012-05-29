@@ -23,5 +23,6 @@
                 <sdk:DataGridTextColumn Header="End" Binding="{Binding End, Mode=TwoWay}" MinWidth="100" />
             </sdk:DataGrid.Columns>
         </sdk:DataGrid>
+        <MediaElement Visibility="Collapsed" Name="mediaElement" />
     </Grid>
 </UserControl>

@@ -23,20 +23,21 @@ namespace Powerhourer {
         readonly PowerhourService powerhourService;
 
 
-        public MainPage()
-            : this(new SongService(), new PowerhourService())
+
+        public MainPage() : this(new SongService())
         {
         }
 
-        public MainPage(SongService SongService, PowerhourService PowerhourService)
+        public MainPage(SongService SongService)
         {
             InitializeComponent();
 
             this.songService = SongService;
-            this.powerhourService = PowerhourService;
+            this.powerhourService = new PowerhourService(mediaElement);
 
             SetCurrentPowerhour(new Powerhour());
         }
+
 
 
         void SetCurrentPowerhour(Powerhour Powerhour)
@@ -44,6 +45,7 @@ namespace Powerhourer {
             CurrentPowerhour = Powerhour;
             dgPowerhourView.ItemsSource = Powerhour.SongSamples;
         }
+
 
         IEnumerable<SongSample> GetSelectedSongs()
         {

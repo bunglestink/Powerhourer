@@ -19,7 +19,7 @@ namespace Powerhourer.BusinessLayer {
 
         readonly PowerhourEngine powerhourEngine;
 
-        public PowerhourService() : this(new PowerhourEngine())
+        public PowerhourService(MediaElement MediaElement) : this(new PowerhourEngine(MediaElement))
         {
         }
 
