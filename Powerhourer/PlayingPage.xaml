@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="Powerhourer.PlayingPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="600" d:DesignWidth="800">
+
+    <Grid x:Name="LayoutRoot" Background="#129">
+        <Button Name="btnPausePlay" Height="50" Margin="282,224,289,326" Click="btnPausePlay_Click">I'm weak and need a timeout...</Button>
+        <Button Name="btnStop" Height="50" Width="100" Margin="688,12,12,538" Click="btnStop_Click">I give up!</Button>
+    </Grid>
+    
+</UserControl>

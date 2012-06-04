@@ -15,18 +15,13 @@ using Powerhourer.BusinessLayer;
 using Powerhourer.Entities;
 
 namespace Powerhourer {
-    public partial class MainPage : UserControl {
+    public partial class MainPage : Page {
 
         public Powerhour CurrentPowerhour { get; set; }
 
         readonly SongService songService;
         readonly PowerhourService powerhourService;
 
-
-
-        public MainPage() : this(new SongService())
-        {
-        }
 
         public MainPage(SongService SongService)
         {
@@ -97,37 +92,9 @@ namespace Powerhourer {
             btnRemoveSong.IsEnabled = false;
             btnMoveSongsUp.IsEnabled = false;
             btnMoveSongsDown.IsEnabled = false;
-            btnPlay.IsEnabled = false;
-            btnPause.IsEnabled = true;
-            btnStop.IsEnabled = true;
 
-            if (powerhourService.IsPaused) {
-                powerhourService.Resume();
-            }
-            else {
-                powerhourService.Play(CurrentPowerhour);
-            }
-        }
-
-        private void btnPause_Click(object sender, RoutedEventArgs e)
-        {
-            btnPlay.IsEnabled = true;
-            btnPause.IsEnabled = false;
-
-            powerhourService.Pause();
-        }
-
-        private void btnStop_Click(object sender, RoutedEventArgs e)
-        {
-            btnAddSong.IsEnabled = true;
-            btnRemoveSong.IsEnabled = true;
-            btnMoveSongsUp.IsEnabled = true;
-            btnMoveSongsDown.IsEnabled = true;
-            btnPlay.IsEnabled = true;
-            btnPause.IsEnabled = false;
-            btnStop.IsEnabled = false;
-
-            powerhourService.Stop();
+            powerhourService.Play(CurrentPowerhour);
+            NavigationService.Navigate(new Uri("/PlayingPage.xaml", UriKind.Relative));
         }
     }
 }

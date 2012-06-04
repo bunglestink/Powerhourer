@@ -19,6 +19,8 @@ namespace Powerhourer.BusinessLayer {
 
         readonly PowerhourEngine powerhourEngine;
 
+        public bool IsPaused { get { return powerhourEngine.IsPaused; } }
+
         public PowerhourService(MediaElement MediaElement) : this(new PowerhourEngine(MediaElement))
         {
         }

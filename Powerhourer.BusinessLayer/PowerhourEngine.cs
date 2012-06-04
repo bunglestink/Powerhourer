@@ -25,10 +25,9 @@ namespace Powerhourer.BusinessLayer {
         int songTime;
         FileStream currentFileStream;
         SongSample currentSong { get { return currentPowerhour.SongSamples[currentSongIndex]; } }
-
         
         public bool IsPlaying { get { return timer.IsEnabled; } }
-
+        public bool IsPaused { get; private set; }
 
 
         public PowerhourEngine(MediaElement MediaElement)
@@ -97,12 +96,14 @@ namespace Powerhourer.BusinessLayer {
 
         public void Pause()
         {
+            IsPaused = true;
             timer.Stop();
             mediaElement.Pause();
         }
 
         public void Resume()
         {
+            IsPaused = false;
             mediaElement.Play();
             timer.Start();
         }
